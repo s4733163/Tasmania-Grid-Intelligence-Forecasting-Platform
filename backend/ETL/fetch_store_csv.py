@@ -137,6 +137,8 @@ df_long = pd.DataFrame(rows).drop_duplicates(
 # into:
 # timestamp | demand_mw | price_per_mwh | renewable_mw
 df = (
+    # Take the values in the metric column and turn them into individual columns.
+    # Each timestamp-region combination should become one row.
     df_long.pivot_table(
         index=["timestamp", "region"],
         columns="metric",
