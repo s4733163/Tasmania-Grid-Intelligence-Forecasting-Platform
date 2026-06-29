@@ -2,3 +2,5 @@
 venv
 *.csv
 *.png
+
+.DS_Store
