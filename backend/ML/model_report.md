@@ -50,7 +50,6 @@ Taken together, the three metrics indicate that the Random Forest model delivers
 
 ## 5. Feature Importance
 
-![Feature Importance](figures/feature_importance.png)
 
 The feature importance values derived from the trained Random Forest reveal a clear hierarchy of predictive relevance among the 17 input features, and this hierarchy is strongly consistent with the temporal structure of electricity demand.
 
@@ -72,7 +71,7 @@ The negligible importance of `is_weekend` (0.0446%) is somewhat surprising but c
 
 ### Full Test Set
 
-![Actual vs Predicted Demand — Full Test Set](figures/actual_vs_predicted.png)
+
 
 The full test-set comparison spans the period from 3 February 2026 to 28 June 2026 — approximately five months of unseen future data covering the transition from the Tasmanian summer through to the onset of winter. Across this extended horizon, the model tracks the actual demand trajectory with considerable fidelity. The predicted series follows the overall level and trend of actual demand, correctly identifying periods of elevated and suppressed demand without systematic drift or divergence over time. This sustained accuracy over a five-month test window demonstrates that the model generalises well to future, unseen conditions rather than merely interpolating within the training period.
 
@@ -82,7 +81,7 @@ However, a consistent characteristic of the predictions is the slight **smoothin
 
 ### First Week of Test Set
 
-![Actual vs Predicted Demand — First Week](figures/actual_vs_predicted_week.png)
+
 
 Examining only the first 168 hours (one week) of the test period provides a higher-resolution view of the model's predictive behaviour at the scale of individual demand cycles. At this resolution, the model's accurate reproduction of the daily demand pattern becomes clearly visible: the predicted series rises and falls in close alignment with the actual series across each 24-hour cycle, with the timing of morning increases and evening declines closely matched. The first 10 test-period predictions, reproduced in the training log, are illustrative: actual demand on the afternoon of 3 February 2026 rises from approximately 796 MW at 14:00 to a peak of approximately 988 MW at 19:00, and the model's predictions track this trajectory closely, with individual errors predominantly in the range of 25–45 MW.
 
