@@ -4,3 +4,5 @@ venv
 *.png
 
 .DS_Store
+*.pkl
+backend/ML/models/
