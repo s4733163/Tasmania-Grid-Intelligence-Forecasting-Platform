@@ -1,0 +1,104 @@
+Feature dataset loaded successfully.
+Rows: 17341
+Columns: 26
+
+First 5 rows:
+    id                  timestamp region  ...  price_rolling_24  target_demand_next_hour  target_renewable_next_hour
+0  302  2024-07-05 14:00:00+00:00   TAS1  ...        241.503681              1303.818333                  682.727075
+1  303  2024-07-05 15:00:00+00:00   TAS1  ...        243.205243              1290.702500                  676.484167
+2  304  2024-07-05 16:00:00+00:00   TAS1  ...        243.223576              1282.895000                  677.581108
+3  305  2024-07-05 17:00:00+00:00   TAS1  ...        243.280104              1296.035000                  689.631000
+4  306  2024-07-05 18:00:00+00:00   TAS1  ...        243.284549              1319.306667                  709.340767
+
+[5 rows x 26 columns]
+
+Column names:
+['id', 'timestamp', 'region', 'demand_mw', 'price_per_mwh', 'renewable_mw', 'created_at', 'hour', 'day', 'month', 'day_of_week', 'is_weekend', 'demand_lag_1', 'demand_lag_24', 'demand_lag_168', 'demand_rolling_24', 'renewable_lag_1', 'renewable_lag_24', 'renewable_lag_168', 'renewable_rolling_24', 'price_lag_1', 'price_lag_24', 'price_lag_168', 'price_rolling_24', 'target_demand_next_hour', 'target_renewable_next_hour']
+
+Missing values:
+id                            0
+timestamp                     0
+region                        0
+demand_mw                     0
+price_per_mwh                 0
+renewable_mw                  0
+created_at                    0
+hour                          0
+day                           0
+month                         0
+day_of_week                   0
+is_weekend                    0
+demand_lag_1                  0
+demand_lag_24                 0
+demand_lag_168                0
+demand_rolling_24             0
+renewable_lag_1               0
+renewable_lag_24              0
+renewable_lag_168             0
+renewable_rolling_24          0
+price_lag_1                   0
+price_lag_24                  0
+price_lag_168                 0
+price_rolling_24              0
+target_demand_next_hour       0
+target_renewable_next_hour    0
+dtype: int64
+
+Target column found: target_renewable_next_hour
+
+All feature columns found.
+
+X shape: (17341, 17)
+y shape: (17341,)
+
+Step 1 complete: data is ready for train/test split.
+Training rows: 13872
+Testing rows: 3469
+Train period: 2024-07-05 14:00:00+00:00 to 2026-02-03 13:00:00+00:00
+Test period: 2026-02-03 14:00:00+00:00 to 2026-06-28 02:00:00+00:00
+
+Training Gradient Boosting model...
+Model training complete.
+
+========== GRADIENT BOOSTING MODEL PERFORMANCE ==========
+MAE  : 67.22 MW
+RMSE : 91.72 MW
+R²   : 0.7473
+
+Model saved to /Users/varunsingh/Desktop/Tasmania-Grid-Intelligence-Forecasting-Platform/backend/ML/models/renewable_gradient_boosting.pkl
+
+========== FEATURE IMPORTANCE ==========
+                 Feature  Importance
+9        renewable_lag_1    0.655577
+0                   hour    0.153867
+10      renewable_lag_24    0.039565
+12  renewable_rolling_24    0.037084
+11     renewable_lag_168    0.015001
+8      demand_rolling_24    0.014977
+13           price_lag_1    0.013903
+6          demand_lag_24    0.013670
+2                  month    0.012897
+16      price_rolling_24    0.012605
+7         demand_lag_168    0.010843
+5           demand_lag_1    0.006904
+14          price_lag_24    0.004501
+15         price_lag_168    0.004178
+3            day_of_week    0.003324
+1                    day    0.001096
+4             is_weekend    0.000010
+
+First 10 Predictions:
+                   Timestamp       Actual    Predicted
+0  2026-02-03 14:00:00+00:00   869.451517   822.080424
+1  2026-02-03 15:00:00+00:00   866.917817   810.014381
+2  2026-02-03 16:00:00+00:00   869.687067   842.688885
+3  2026-02-03 17:00:00+00:00   898.096058   899.380367
+4  2026-02-03 18:00:00+00:00   956.639050   988.248549
+5  2026-02-03 19:00:00+00:00  1002.595917  1028.462628
+6  2026-02-03 20:00:00+00:00   956.273250   999.477831
+7  2026-02-03 21:00:00+00:00   924.041950  1009.833909
+8  2026-02-03 22:00:00+00:00   914.423450   919.103974
+9  2026-02-03 23:00:00+00:00   958.459367   902.205573
+
+All figures saved to: /Users/varunsingh/Desktop/Tasmania-Grid-Intelligence-Forecasting-Platform/backend/ML/figures
+Training log saved to: /Users/varunsingh/Desktop/Tasmania-Grid-Intelligence-Forecasting-Platform/backend/ML/training_renewable_gradient_boosting_log.txt
