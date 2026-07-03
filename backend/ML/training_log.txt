@@ -48,7 +48,7 @@ Target column found: target_demand_next_hour
 
 All feature columns found.
 
-X shape: (17341, 17)
+X shape: (17341, 9)
 y shape: (17341,)
 
 Step 1 complete: data is ready for train/test split.
@@ -61,44 +61,36 @@ Training Random Forest model...
 Model training complete.
 
 ========== MODEL PERFORMANCE ==========
-MAE  : 35.30 MW
-RMSE : 47.43 MW
-R²   : 0.8943
+MAE  : 33.81 MW
+RMSE : 44.85 MW
+R²   : 0.9055
 
 Model saved to /Users/varunsingh/Desktop/Tasmania-Grid-Intelligence-Forecasting-Platform/backend/ML/models/demand_random_forest.pkl
 
 ========== FEATURE IMPORTANCE ==========
-                 Feature  Importance
-6          demand_lag_24    0.557577
-5           demand_lag_1    0.193189
-0                   hour    0.121485
-8      demand_rolling_24    0.043048
-7         demand_lag_168    0.017537
-11     renewable_lag_168    0.007243
-14          price_lag_24    0.007099
-9        renewable_lag_1    0.006958
-15         price_lag_168    0.006677
-3            day_of_week    0.006324
-10      renewable_lag_24    0.006289
-13           price_lag_1    0.005898
-12  renewable_rolling_24    0.005675
-16      price_rolling_24    0.005633
-1                    day    0.005540
-2                  month    0.003382
-4             is_weekend    0.000446
+             Feature  Importance
+6      demand_lag_24    0.563876
+5       demand_lag_1    0.202343
+0               hour    0.128664
+8  demand_rolling_24    0.051150
+7     demand_lag_168    0.024496
+1                day    0.010769
+3        day_of_week    0.010111
+2              month    0.007756
+4         is_weekend    0.000835
 
 First 10 Predictions:
                    Timestamp      Actual   Predicted
-0  2026-02-03 14:00:00+00:00  796.465833  822.136825
-1  2026-02-03 15:00:00+00:00  812.042500  822.493967
-2  2026-02-03 16:00:00+00:00  813.689167  824.000133
-3  2026-02-03 17:00:00+00:00  855.070000  880.347317
-4  2026-02-03 18:00:00+00:00  937.768333  904.081583
-5  2026-02-03 19:00:00+00:00  988.416667  943.965483
-6  2026-02-03 20:00:00+00:00  970.936667  961.602275
-7  2026-02-03 21:00:00+00:00  927.902500  917.811267
-8  2026-02-03 22:00:00+00:00  888.578333  884.787758
-9  2026-02-03 23:00:00+00:00  810.255833  820.260400
+0  2026-02-03 14:00:00+00:00  796.465833  812.955150
+1  2026-02-03 15:00:00+00:00  812.042500  810.421725
+2  2026-02-03 16:00:00+00:00  813.689167  804.281192
+3  2026-02-03 17:00:00+00:00  855.070000  865.754808
+4  2026-02-03 18:00:00+00:00  937.768333  906.456525
+5  2026-02-03 19:00:00+00:00  988.416667  952.397850
+6  2026-02-03 20:00:00+00:00  970.936667  962.168267
+7  2026-02-03 21:00:00+00:00  927.902500  927.252117
+8  2026-02-03 22:00:00+00:00  888.578333  892.286808
+9  2026-02-03 23:00:00+00:00  810.255833  816.903108
 
 All figures saved to: /Users/varunsingh/Desktop/Tasmania-Grid-Intelligence-Forecasting-Platform/backend/ML/figures
 Training log saved to: /Users/varunsingh/Desktop/Tasmania-Grid-Intelligence-Forecasting-Platform/backend/ML/training_log.txt

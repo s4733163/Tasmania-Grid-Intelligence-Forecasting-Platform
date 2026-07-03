@@ -88,15 +88,7 @@ feature_columns = [
     "demand_lag_168",
     "demand_rolling_24",
 
-    "renewable_lag_1",
-    "renewable_lag_24",
-    "renewable_lag_168",
-    "renewable_rolling_24",
 
-    "price_lag_1",
-    "price_lag_24",
-    "price_lag_168",
-    "price_rolling_24",
 ]
 
 missing_features = [col for col in feature_columns if col not in df.columns]
