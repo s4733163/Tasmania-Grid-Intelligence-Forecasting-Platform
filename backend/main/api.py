@@ -209,3 +209,138 @@ def get_forecasts():
         "count": len(rows),
         "value": rows,
     }
+
+
+@app.get("/summary")
+def get_summary():
+
+    response = (
+        supabase.table("forecasts")
+        .select("*")
+        .order("forecast_timestamp", desc=True)
+        .limit(36)
+        .execute()
+    )
+
+    forecasts = response.data
+
+    if not forecasts:
+        return {"message": "No forecast data available."}
+
+    df = pd.DataFrame(forecasts)
+
+    peak_idx = df["predicted_demand_mw"].idxmax()
+    peak_renewable_idx = df["predicted_renewable_mw"].idxmax()
+    low_idx = df["predicted_renewable_mw"].idxmin()
+    price_idx = df["estimated_price_per_mwh"].idxmax()
+
+    return {
+
+        "peak_demand": {
+            "value_mw": round(df.loc[peak_idx, "predicted_demand_mw"], 2),
+            "timestamp": df.loc[peak_idx, "forecast_timestamp"]
+        },
+
+        "peak_renewable": {
+            "value_mw": round(df.loc[peak_renewable_idx, "predicted_renewable_mw"], 2),
+            "timestamp": df.loc[peak_renewable_idx, "forecast_timestamp"]
+        },
+
+        "lowest_renewable": {
+            "value_mw": round(df.loc[low_idx, "predicted_renewable_mw"], 2),
+            "timestamp": df.loc[low_idx, "forecast_timestamp"]
+        },
+
+        "highest_price": {
+            "value_per_mwh": round(df.loc[price_idx, "estimated_price_per_mwh"], 2),
+            "timestamp": df.loc[price_idx, "forecast_timestamp"]
+        },
+
+        "average_demand_mw":
+            round(df["predicted_demand_mw"].mean(), 2),
+
+        "average_renewable_mw":
+            round(df["predicted_renewable_mw"].mean(), 2),
+
+        "average_price_per_mwh":
+            round(df["estimated_price_per_mwh"].mean(), 2),
+
+        "average_renewable_coverage_percent":
+            round(df["renewable_coverage_percent"].mean(), 2),
+
+        "highest_risk":
+            df["risk_level"].max()
+    }
+
+@app.get("/current")
+def get_current():
+    response = (
+        supabase.table("energy_readings")
+        .select("*")
+        .order("timestamp", desc=True)
+        .limit(1)
+        .execute()
+    )
+
+    if not response.data:
+        return {"message": "No current energy data available."}
+
+    latest = response.data[0]
+
+    return {
+        "timestamp": latest["timestamp"],
+        "region": latest["region"],
+        "current_demand_mw": round(float(latest["demand_mw"]), 2),
+        "current_renewable_mw": round(float(latest["renewable_mw"]), 2),
+        "current_price_per_mwh": round(float(latest["price_per_mwh"]), 2),
+        "renewable_coverage_percent": round(
+            float(latest["renewable_mw"]) / float(latest["demand_mw"]) * 100,
+            2
+        )
+    }
+
+
+@app.get("/health")
+def health():
+
+    try:
+
+        energy = (
+            supabase.table("energy_readings")
+            .select("timestamp")
+            .order("timestamp", desc=True)
+            .limit(1)
+            .execute()
+        )
+
+        forecasts = (
+            supabase.table("forecasts")
+            .select("forecast_timestamp")
+            .order("forecast_timestamp", desc=True)
+            .limit(1)
+            .execute()
+        )
+
+        latest_energy = (
+            energy.data[0]["timestamp"]
+            if energy.data else None
+        )
+
+        latest_forecast = (
+            forecasts.data[0]["forecast_timestamp"]
+            if forecasts.data else None
+        )
+
+        return {
+            "status": "healthy",
+            "latest_energy_reading": latest_energy,
+            "latest_forecast": latest_forecast,
+            "models_loaded": True
+        }
+
+    except Exception as e:
+
+        return {
+            "status": "unhealthy",
+            "error": str(e)
+        }

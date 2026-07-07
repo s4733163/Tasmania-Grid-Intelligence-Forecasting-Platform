@@ -6,3 +6,13 @@ venv
 .DS_Store
 *.pkl
 backend/ML/models/
+__pycache__/
+*.pyc
+
+training_price_log.txt
+
+# Frontend (Vite + React)
+frontend/Tasmanian-Grid-Frontend/node_modules/
+frontend/Tasmanian-Grid-Frontend/dist/
+frontend/Tasmanian-Grid-Frontend/dist-ssr/
+frontend/Tasmanian-Grid-Frontend/*.local
