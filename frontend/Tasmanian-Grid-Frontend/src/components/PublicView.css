@@ -1,0 +1,57 @@
+.public-status-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  border-radius: 16px;
+  padding: 20px 22px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  background: #102a43;
+}
+
+.public-status-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.public-status-green {
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.public-status-green .public-status-dot {
+  background: #22c55e;
+  box-shadow: 0 0 12px 2px rgba(34, 197, 94, 0.5);
+}
+
+.public-status-amber {
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.public-status-amber .public-status-dot {
+  background: #f59e0b;
+  box-shadow: 0 0 12px 2px rgba(245, 158, 11, 0.5);
+}
+
+.public-status-red {
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.public-status-red .public-status-dot {
+  background: #ef4444;
+  box-shadow: 0 0 12px 2px rgba(239, 68, 68, 0.5);
+}
+
+.public-status-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 6px;
+}
+
+.public-status-message {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}

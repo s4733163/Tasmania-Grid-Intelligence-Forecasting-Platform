@@ -1,0 +1,32 @@
+.insight-card {
+  background: #102a43;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 14px;
+  padding: 18px 20px;
+  border-top: 3px solid #38bdf8;
+}
+
+.insight-green {
+  border-top-color: #22c55e;
+}
+
+.insight-amber {
+  border-top-color: #f59e0b;
+}
+
+.insight-blue {
+  border-top-color: #38bdf8;
+}
+
+.insight-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 8px;
+}
+
+.insight-body {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}

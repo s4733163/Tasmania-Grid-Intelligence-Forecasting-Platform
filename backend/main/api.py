@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import os
 import joblib
 import pandas as pd
@@ -13,6 +14,16 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 app = FastAPI(title="Tasmania Grid Intelligence API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173", "http://127.0.0.1:5173",
+        "http://localhost:5174", "http://127.0.0.1:5174",
+    ],
+    allow_methods=["GET"],
+    allow_headers=["*"],
+)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS_DIR = os.path.join(BASE_DIR, "ML", "models")
@@ -115,7 +126,7 @@ def rebuild_features(df):
 
 FORECAST_HOURS = 36
 
-@app.post("/generate-forecast")
+
 def generate_forecast():
     df, latest_row, X_latest_renewable, X_latest_demand = build_latest_feature_row()
 

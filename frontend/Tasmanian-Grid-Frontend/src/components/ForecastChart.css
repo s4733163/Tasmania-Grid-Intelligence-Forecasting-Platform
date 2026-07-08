@@ -1,0 +1,55 @@
+.forecast-chart-card {
+  background: #102a43;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.forecast-chart-title {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.forecast-chart-tooltip {
+  background: #0b2036;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-width: 160px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.forecast-chart-tooltip-label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.forecast-chart-tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #e2e8f0;
+  padding: 2px 0;
+}
+
+.forecast-chart-tooltip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.forecast-chart-tooltip-name {
+  color: #94a3b8;
+}
+
+.forecast-chart-tooltip-value {
+  margin-left: auto;
+  font-weight: 700;
+  color: #f8fafc;
+}
