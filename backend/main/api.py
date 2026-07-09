@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from cachetools import TTLCache
 import os
 import joblib
 import pandas as pd
@@ -24,6 +25,11 @@ app.add_middleware(
     allow_methods=["GET"],
     allow_headers=["*"],
 )
+CACHE_TTL = 300  # 1 hour
+
+current_cache = TTLCache(maxsize=1, ttl=CACHE_TTL)
+forecast_cache = TTLCache(maxsize=1, ttl=CACHE_TTL)
+summary_cache = TTLCache(maxsize=1, ttl=CACHE_TTL)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS_DIR = os.path.join(BASE_DIR, "ML", "models")
@@ -201,6 +207,9 @@ def root():
 
 @app.get("/forecasts")
 def get_forecasts():
+    if "value" in forecast_cache:
+        return forecast_cache["value"]
+
     response = (
         supabase.table("forecasts")
         .select("*")
@@ -216,14 +225,19 @@ def get_forecasts():
         key=lambda x: x["forecast_timestamp"]
     )
 
-    return {
+    result = {
         "count": len(rows),
         "value": rows,
     }
 
+    forecast_cache["value"] = result
+    return result
+
 
 @app.get("/summary")
 def get_summary():
+    if "value" in summary_cache:
+        return summary_cache["value"]
 
     response = (
         supabase.table("forecasts")
@@ -235,9 +249,6 @@ def get_summary():
 
     forecasts = response.data
 
-    if not forecasts:
-        return {"message": "No forecast data available."}
-
     df = pd.DataFrame(forecasts)
 
     peak_idx = df["predicted_demand_mw"].idxmax()
@@ -245,7 +256,7 @@ def get_summary():
     low_idx = df["predicted_renewable_mw"].idxmin()
     price_idx = df["estimated_price_per_mwh"].idxmax()
 
-    return {
+    result = {
 
         "peak_demand": {
             "value_mw": round(df.loc[peak_idx, "predicted_demand_mw"], 2),
@@ -283,8 +294,14 @@ def get_summary():
             df["risk_level"].max()
     }
 
+    summary_cache["value"] = result
+    return result
+
 @app.get("/current")
 def get_current():
+    if "value" in current_cache:
+        return current_cache["value"]
+
     response = (
         supabase.table("energy_readings")
         .select("*")
@@ -293,12 +310,9 @@ def get_current():
         .execute()
     )
 
-    if not response.data:
-        return {"message": "No current energy data available."}
-
     latest = response.data[0]
 
-    return {
+    result = {
         "timestamp": latest["timestamp"],
         "region": latest["region"],
         "current_demand_mw": round(float(latest["demand_mw"]), 2),
@@ -309,6 +323,9 @@ def get_current():
             2
         )
     }
+
+    current_cache["value"] = result
+    return result
 
 
 @app.get("/health")
