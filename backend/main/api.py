@@ -20,6 +20,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173", "http://127.0.0.1:5173",
         "http://localhost:5174", "http://127.0.0.1:5174",
+        "https://ddxs97qcou3tz.cloudfront.neta"
     ],
     allow_methods=["GET"],
     allow_headers=["*"],
@@ -129,7 +130,7 @@ def get_summary():
             round(df["renewable_coverage_percent"].mean(), 2),
 
         "highest_risk":
-            highest_risk
+             highest_risk
     }
 
     summary_cache["value"] = result
