@@ -1,4 +1,4 @@
-const BASE_URL = "https://tasmania-grid-intelligence-forecasting-8cre.onrender.com/";
+const BASE_URL = "https://tasmania-grid-intelligence-forecasting-8cre.onrender.com";
 
 async function request(path) {
   const response = await fetch(`${BASE_URL}${path}`);

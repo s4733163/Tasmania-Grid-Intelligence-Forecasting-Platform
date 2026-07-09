@@ -28,7 +28,7 @@ variable "tags" {
 variable "default_ttl" {
   description = "Default TTL (in seconds) for CloudFront cache"
   type        = number
-  default     = 3600
+  default     = 60
 }
 
 variable "max_ttl" {
