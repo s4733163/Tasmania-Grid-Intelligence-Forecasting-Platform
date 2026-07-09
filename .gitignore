@@ -16,3 +16,6 @@ frontend/Tasmanian-Grid-Frontend/node_modules/
 frontend/Tasmanian-Grid-Frontend/dist/
 frontend/Tasmanian-Grid-Frontend/dist-ssr/
 frontend/Tasmanian-Grid-Frontend/*.local
+
+
+terraform
