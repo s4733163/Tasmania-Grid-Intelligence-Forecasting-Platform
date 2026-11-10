@@ -5,7 +5,18 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 from supabase import create_client
+import math
 
+def safe_round(value, digits=2):
+    if value is None:
+        return None
+
+    try:
+        number = float(value)
+        return round(number, digits) if math.isfinite(number) else None
+    except (TypeError, ValueError, OverflowError):
+        return None
+    
 load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -81,6 +92,9 @@ def get_summary():
 
     forecasts = response.data
 
+    if not forecasts:
+        return {"error": "No forecast data available"}
+
     df = pd.DataFrame(forecasts)
 
     peak_idx = df["predicted_demand_mw"].idxmax()
@@ -136,6 +150,7 @@ def get_summary():
     summary_cache["value"] = result
     return result
 
+
 @app.get("/current")
 def get_current():
     if "value" in current_cache:
@@ -149,22 +164,32 @@ def get_current():
         .execute()
     )
 
+    if not response.data:
+        return {"error": "No energy readings available"}
+
     latest = response.data[0]
+
+    demand = safe_round(latest.get("demand_mw"))
+    renewable = safe_round(latest.get("renewable_mw"))
+    price = safe_round(latest.get("price_per_mwh"))
+
+    coverage = None
+
+    if demand is not None and renewable is not None and demand > 0:
+        coverage = round((renewable / demand) * 100, 2)
 
     result = {
         "timestamp": latest["timestamp"],
         "region": latest["region"],
-        "current_demand_mw": round(float(latest["demand_mw"]), 2),
-        "current_renewable_mw": round(float(latest["renewable_mw"]), 2),
-        "current_price_per_mwh": round(float(latest["price_per_mwh"]), 2),
-        "renewable_coverage_percent": round(
-            float(latest["renewable_mw"]) / float(latest["demand_mw"]) * 100,
-            2
-        )
+        "current_demand_mw": demand,
+        "current_renewable_mw": renewable,
+        "current_price_per_mwh": price,
+        "renewable_coverage_percent": coverage
     }
 
     current_cache["value"] = result
     return result
+
 
 
 @app.get("/health")

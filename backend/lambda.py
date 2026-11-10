@@ -175,7 +175,7 @@ def update_energy_readings():
         ["timestamp", "region", "demand_mw", "price_per_mwh", "renewable_mw"]
     ]
 
-    df = df.where(pd.notnull(df), None)
+    df = df.astype(object).where(pd.notnull(df), None)
     records = df.to_dict(orient="records")
 
     for i in range(0, len(records), BATCH_SIZE):
